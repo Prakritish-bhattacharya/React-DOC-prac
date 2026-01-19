@@ -81,44 +81,53 @@ export const sculptureList = [{
 }];
 
  function Gallary(){
-    // let index = 0 👇
+    // first state variable to keep track of current sculpture index
     const [index, setIndex] = useState(0)
+    // second state variable to toggle description visibility
+    const [showMore, setShowMore] = useState(false)
 
-    function handleClick(){
-        // index = index + 1 👇
-        setIndex(index + 1)
+    function handleNextClick(){
+      // update cureent sculpture index to next sculpture
+      setIndex(index + 1)
+    }
+    function handleMoreClick(){
+      // toggle the showMore state variable
+      setShowMore(!showMore)
     }
     let sculpture = sculptureList[index]
     return(
-        <>
-            <button onClick={handleClick}>
-                Next
-            </button>
-            
-            <h2>
-                <i>{sculpture.name}</i>
-                by {sculpture.artist}
-            </h2>
-            <h3>
-                {index + 1} of {sculptureList.length}
-            </h3>
-            <img 
-                src = {sculpture.url} 
-                alt = {sculpture.alt}>
-            </img>
-            <p>
-                {sculpture.description}
-            </p>
+      <>
+        <button onClick = {handleNextClick}>
+          Next
+        </button>
+{/* --------------------------------------------------------- */}
+        <h2>
+          {sculpture.name} by {sculpture.artist}
+        </h2>
+{/* ----------------------------------------------------------- */}
+        <h3>
+           ({index +1} of {sculptureList.length})
+        </h3>
+{/* ---------------------------------------------------------- */}
+        <button onClick = {handleMoreClick}>
+          {showMore ? "Hide" : "Show"} details
+        </button>
+{/* ---------------------------------------------------------- */}
+        {showMore && <p>{sculpture.description}</p>}
+        <img 
+            src = {sculpture.url}
+            alt = {sculpture.alt}
+        />
+      </>
+    )
 
-        </>
+}
+const AppLayout = () =>{
+    return(
+        <div className="app_layout">
+            <Gallary/>
+        </div>
     )
 }
-// const AppLayout = () =>{
-//     return(
-//         <div className="app_layout">
-//             <h1>Hi! React Hook</h1>
-//         </div>
-//     )
-// }
 const root = createRoot(document.getElementById("root"))
-root.render(<Gallary/>)
+root.render(<AppLayout/>)
